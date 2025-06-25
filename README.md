@@ -72,22 +72,22 @@ Each clustering method was visualized and evaluated using:
 ## 🖼️ Visual Outputs
 
 ### 📌 1. Annual Income Distribution  
-*Insert plot here*
+![Annual Income Distribution](images/Annual_Income_Distribution.png)
 
 ### 📌 2. Age Distribution  
-*Insert plot here*
+![Age Distribution](images/Age_Distribution.png)
 
 ### 📌 3. Gender Pie Chart  
-*Insert plot here*
+![Gender Pie Chart](images/Gender_Pie_Chart.png)
 
 ### 📌 4. General Pair Plot  
-*Insert plot here*
+![General Pair Plot](images/General_Pair_Plot.png)
 
 ### 📌 5. Pair Plot Colored by Gender  
-*Insert plot here*
+![Pair Plot Colored by Gender](images/Pair_Plot_Colored_by_Gender.png)
 
 ### 📌 6. Clustering Visualizations + Evaluation Metrics  
-*Insert 4 clustering visualizations here*
+![Clustering Visualizations + Evaluation Metrics](images/Clustering_Visualizations_Evaluation_Metrics.png)
 
 Each clustering plot is colored by predicted cluster labels in PCA-reduced 2D space.
 
