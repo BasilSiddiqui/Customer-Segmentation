@@ -16,39 +16,114 @@ df = pd.read_excel(r"C:\Users\basil\OneDrive\Desktop\Base\Work\Personal projects
 df.rename(columns={'Education ': 'Education'}, inplace=True)
 
 # ✅ EDA - Distribution Plots
-sns.set(style='whitegrid')
-sns.histplot(df['Annual Income (k$)'], kde=True)
-plt.title('Distribution of Annual Income')
-plt.xlabel('Annual Income (k$)')
-plt.ylabel('Count')
+
+# --------------------------------------------
+# 📊 Distribution of Annual Income (Histogram)
+# --------------------------------------------
+
+sns.set_style("whitegrid", {'grid.linestyle': '--', 'axes.edgecolor': '0.3'})
+plt.figure(figsize=(10, 6))
+ax = sns.histplot(
+    df['Annual Income (k$)'], 
+    kde=True,                          # Overlay KDE curve
+    color='royalblue', 
+    bins=20, 
+    alpha=0.7,                         # Slight transparency
+    linewidth=0.5,
+    edgecolor='white'                 # White edges between bars
+)
+plt.title('Distribution of Annual Income', fontsize=16, pad=20, fontweight='bold')
+plt.xlabel('Annual Income (k$)', fontsize=12, labelpad=10)
+plt.ylabel('Count', fontsize=12, labelpad=10)
+sns.despine(left=True)               # Remove left & top spines
+plt.grid(axis='y', alpha=0.3)
 plt.show()
 
-sns.set(style='dark')
-sns.histplot(df['Age'], kde=True)
-plt.title('Distribution of Age')
-plt.xlabel('Age')
-plt.ylabel('Count')
+
+# --------------------------------------------
+# 🧓 Age Distribution (Histogram with KDE)
+# --------------------------------------------
+
+sns.set_style("dark", {'axes.facecolor': '#f5f5f5', 'text.color': '0.3'})
+plt.figure(figsize=(10, 6))
+
+ax = sns.histplot(
+    df['Age'], 
+    kde=True,                         # Keep KDE line
+    color='crimson', 
+    bins=15, 
+    alpha=0.8,
+    edgecolor='white', 
+    linewidth=0.5
+)
+
+plt.title('Distribution of Age', fontsize=16, pad=20, fontweight='bold', color='0.3')
+plt.xlabel('Age', fontsize=12, labelpad=10, color='0.3')
+plt.ylabel('Count', fontsize=12, labelpad=10, color='0.3')
+ax.grid(alpha=0.2)
+sns.despine()
 plt.show()
 
-# ✅ EDA - Gender Pie Chart
+
+# --------------------------------------------
+# 🟣 Gender Distribution (Pie Chart)
+# --------------------------------------------
+
 labels = ['Female', 'Male']
 size = df['Gender'].value_counts().values
-colors = ['pink', 'skyblue']
-explode = [0, 0.1]
+colors = ['#ff007f', '#007fff']       # Hot pink and hot blue
+explode = [0, 0.05]                   # Slight separation for one slice
 
-plt.figure(figsize=(6, 6))
-plt.pie(size, colors=colors, explode=explode, labels=labels, autopct='%.2f%%', shadow=True)
-plt.title('Gender Distribution')
+plt.figure(figsize=(8, 8))
+wedges, texts, autotexts = plt.pie(
+    size, 
+    colors=colors, 
+    explode=explode, 
+    labels=labels, 
+    autopct='%.1f%%', 
+    startangle=90,
+    shadow=False,
+    textprops={'fontsize': 28, 'color': '0.4'},
+    wedgeprops={'edgecolor': 'black', 'linewidth': 4}
+)
+plt.title('Gender Distribution', fontsize=16, pad=20, fontweight='bold', color='0.3')
+plt.legend(wedges, labels, loc='upper right', bbox_to_anchor=(1.1, 1))
+plt.setp(autotexts, size=12, weight='bold', color='white')  # Style % labels
 plt.axis('equal')
-plt.legend()
 plt.show()
 
-# ✅ EDA - Pair Plots
-sns.pairplot(df)
+
+# --------------------------------------------
+# 🔁 Pairplot Colored by Gender
+# --------------------------------------------
+
+sns.set_theme(
+    style="ticks",
+    rc={"axes.spines.right": False, "axes.spines.top": False}
+)
+g = sns.pairplot(
+    df, 
+    hue='Gender', 
+    palette={'F': '#ff007f', 'M': '#007fff'},     # Use mapped values
+    plot_kws={'alpha': 0.7, 'edgecolor': 'w', 'linewidth': 0.5},
+    diag_kws={'alpha': 0.8, 'edgecolor': 'w'}
+)
+g.fig.suptitle('Pairwise Relationships by Gender', y=1.02, fontsize=16, fontweight='bold')
 plt.show()
 
-sns.pairplot(df, hue='Gender')
+
+# --------------------------------------------
+# 🔁 Pairplot (No Hue - General Overview)
+# --------------------------------------------
+
+sns.set_theme(
+    style="ticks",
+    rc={"axes.spines.right": False, "axes.spines.top": False}
+)
+g = sns.pairplot(df)
+g.fig.suptitle('Pairwise Relationships by Gender', y=1.02, fontsize=16, fontweight='bold')
 plt.show()
+
 
 # 🧠 Data Preprocessing
 # 🎯 Ordinal Encode Education
@@ -65,14 +140,14 @@ education_map = {
 df['Education_enc'] = df['Education'].map(education_map)
 
 # ❌ Drop unused columns
-df = df.drop(columns=['CustomerID', 'Education'])
+df_encoded = df.drop(columns=['CustomerID', 'Education'])
 
 # 🧠 One-Hot Encode Gender and Marital Status
-df = pd.get_dummies(df, columns=['Gender', 'Marital Status'], drop_first=True)
+df_encoded = pd.get_dummies(df_encoded, columns=['Gender', 'Marital Status'], drop_first=True)
 
 # 📏 Scale features
 scaler = StandardScaler()
-scaled_df = scaler.fit_transform(df)
+scaled_df = scaler.fit_transform(df_encoded)
 
 # 📉 Dimensionality Reduction for Visualization
 pca = PCA(n_components=2)
