@@ -80,10 +80,10 @@ Each clustering method was visualized and evaluated using:
 ### 📌 3. Gender Pie Chart  
 ![Gender Pie Chart](images/Gender_Pie_Chart.png)
 
-### 📌 4. General Pair Plot  
+### 📌 4. Pair Plot Colored by Gender  
 ![General Pair Plot](images/General_Pair_Plot.png)
 
-### 📌 5. Pair Plot Colored by Gender  
+### 📌 5. General Pair Plot
 ![Pair Plot Colored by Gender](images/Pair_Plot_Colored_by_Gender.png)
 
 ### 📌 6. Clustering Visualizations + Evaluation Metrics  
